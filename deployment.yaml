@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: aura
+  name: aura
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: aura
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        run: aura
+    spec:
+      containers:
+      - image: us.gcr.io/[GCP_PROJECT_ID]/aura:v1
+        imagePullPolicy: IfNotPresent
+        name: aura
+        ports:
+        - containerPort: 8000
+          protocol: TCP
